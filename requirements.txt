@@ -1,0 +1,7 @@
+mwparserfromhell==0.6.4
+multiprocess==0.70.13
+datasets~=2.20.0
+llama-index-vector-stores-faiss
+llama-index-embeddings-huggingface
+llama-index
+faiss-cpu
