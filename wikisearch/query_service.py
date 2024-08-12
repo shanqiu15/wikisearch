@@ -54,7 +54,7 @@ class QueryService:
         self.retrieve_engine = self.index.as_retriever()
 
         if "OPENAI_API_KEY" in os.environ:
-            query_engine = self.index.as_query_engine()
+            query_engine = self.index.as_query_engine(similarity_top_k=3)
             # setup base query engine as tool
             query_engine_tools = [
                 QueryEngineTool(
@@ -103,5 +103,6 @@ class QueryService:
                     url=doc.node.metadata["url"], title=doc.node.metadata["title"], text=doc.text
                 )
                 for doc in resp.source_nodes
+                if doc.node.metadata.get("url")
             ],
         )

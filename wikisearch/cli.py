@@ -16,10 +16,8 @@ def main():
     console = Console()
 
     if "OPENAI_API_KEY" in os.environ:
-        # print(qs.answer(args.query))
         pprint(qs.answer(args.query), console=console)
     else:
-        # print(qs.search(args.query))
         pprint(qs.search(args.query), console=console)
 
 
