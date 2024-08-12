@@ -7,7 +7,7 @@ This README guides you through setting up and running a Wikipedia search engine 
 
 ```
 $ git clone ${repo}
-$ cd ${repo}
+$ cd ${wikisearch_root}
 $ python -m venv .env
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
