@@ -8,13 +8,13 @@ This README guides you through setting up and running a Wikipedia search engine 
 ```
 $ git clone ${repo}
 $ cd ${wikisearch_root}
-$ python -m venv .env
+$ python -m venv .venv
 $ source .venv/bin/activate
 $ pip install -r requirements.txt
 $ pip install .
 ```
 
-Step 2: Download the Fine-tuned Embedding Model and Document Index
+### Step 2: Download the Fine-tuned Embedding Model and Document Index
 From the root directory of the repository:
 
 ```
@@ -25,15 +25,18 @@ $ unzip inference_data.zip
 $ cd ..
 ```
 
-Step 3: Set OpenAI API Key
+### Step 3: Set OpenAI API Key
 To run the code in question-answer mode, set your OpenAI API key as an environment variable:
 ```
 % export OPENAI_API_KEY= Your OpenAI Key
 ```
 We use GPT-4o for answer generation. Running the code without setting the OpenAI key will return only the retrieved document chunks.
 
-Step 4: Run the Search
+### Step 4: Run the Search
+
+The first time you run the code, you may experience a significant delay due to the cold start process. Subsequent runs will be much faster.
 ```
+% export TOKENIZERS_PARALLELISM=false
 % wikisearch "Were Scott Derrickson and Ed Wood of the same nationality?"
 ```
 
