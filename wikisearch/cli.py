@@ -1,7 +1,8 @@
 import argparse
 import os
-import pprint
 from .query_service import QueryService
+from rich.console import Console
+from rich.pretty import pprint
 
 qs = QueryService()
 
@@ -12,10 +13,14 @@ def main():
 
     args = parser.parse_args()
 
+    console = Console()
+
     if "OPENAI_API_KEY" in os.environ:
-        print("Answer: ", qs.answer(args.query))
+        # print(qs.answer(args.query))
+        pprint(qs.answer(args.query), console=console)
     else:
-        pprint.pprint(qs.search(args.query), width=40, indent=4)
+        # print(qs.search(args.query))
+        pprint(qs.search(args.query), console=console)
 
 
 if __name__ == "__main__":

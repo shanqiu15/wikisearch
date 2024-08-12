@@ -5,12 +5,12 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.query_engine import SubQuestionQueryEngine
 import os
-from Pydantic import BaseModel
+from pydantic import BaseModel
 from typing import Optional
 
 
-INDEX_STORE = "/Users/hao/doc_workspace/wikisearch/data/inference/hotpot_val_1k"
-FT_MODEL = "/Users/hao/doc_workspace/wikisearch/data/inference/ft_100000_v2"
+INDEX_STORE = "data/inference/hotpot_val_1k"
+FT_MODEL = "data/inference/ft_100000_v2"
 
 
 class Document(BaseModel):
@@ -18,16 +18,19 @@ class Document(BaseModel):
     url: str
     text: str
 
+    def __str__(self):
+        prefix = "    "
+        return f"{prefix}Title: {self.title}\n{prefix}URL: {self.url}\n{prefix}Text: {self.text}"
+
 
 class SearchResponse(BaseModel):
     query: str
     answer: Optional[str] = ""
-    results: list[Document]
+    contexts: list[Document]
 
-
-def perform_search(query):
-    # Placeholder for search logic
-    return f"Results for '{query}' (simulated data)"
+    def __str__(self):
+        results_str = "\n\n".join(str(result) for result in self.contexts)
+        return f"Query: {self.query}\nAnswer: {self.answer}\nRetrieved Documents:\n{results_str}"
 
 
 class QueryService:
@@ -69,13 +72,19 @@ class QueryService:
                 use_async=True,
                 llm=llm,
             )
+        else:
+            print(
+                "\033[31m"
+                + "\nOPENAI_API_KEY not found in environment variables. Will only search for relevant documents. To enable answer generation please set OPENAI_API_KEY in your environment variables.\n"
+                + "\033[0m"
+            )
 
     def search(self, query: str):
         resp = self.retrieve_engine.retrieve(query)
 
         return SearchResponse(
             query=query,
-            results=[
+            contexts=[
                 Document(
                     url=doc.node.metadata["url"], title=doc.node.metadata["title"], text=doc.text
                 )
@@ -89,7 +98,7 @@ class QueryService:
         return SearchResponse(
             query=query,
             answer=resp.response,
-            results=[
+            contexts=[
                 Document(
                     url=doc.node.metadata["url"], title=doc.node.metadata["title"], text=doc.text
                 )

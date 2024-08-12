@@ -1,6 +1,24 @@
-`python -m venv .env`
+```
+$ git clone ${repo}
+$ cd ${repo}
+$ python -m venv .env
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
+$ pip install .
+```
 
-` %  source .venv/bin/activate`
+Download fine tuned embedding model and document index
+```
+# from the repo root directory
+
+$ mkdir data
+$ cd data
+$ curl "${get the presign url from my email}" -o "inference_data.zip"
+$ unzip inference_data.zip 
+$ cd ..
+$ 
+
+```
 
 
 Get the latest dump version from:

@@ -8,3 +8,4 @@ llama-index
 faiss-cpu
 transformers[torch]
 accelerate
+rich
